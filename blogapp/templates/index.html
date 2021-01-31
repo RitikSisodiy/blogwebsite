@@ -1,0 +1,254 @@
+{% extends 'basic.html' %}
+{% load static %}
+{% block body %}
+        <section class="bg-text-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="bg-text">
+                            <h3>Classic BLOG Design</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="blog-post-area">
+            <div class="container">
+                <div class="row">
+                    <div class="blog-post-area-style">
+                            <div class="col-md-12">
+                                <div class="single-post-big">
+                                    <div class="big-image">
+                                        <img src="/media/{{mostlike.1.blog_image}}" alt="">
+                                    </div>
+                                    <div class="big-text">
+                                        <h3><a href="#"> {{mostlike.1.blog_title}}</a></h3>
+                                        <p>{{mostlike.1.blog_content}}</p>
+                                        <h4><span class="date">{{mostlike.1.blog_time}}</span><span class="author">Posted By: <span class="author-name">{{mostlike.1.blog_owner}}</span></span>
+                                        </h4>
+                                    </div>
+                                      <div class="divpr">
+    {% csrf_token %}
+   <button  class="{{mostlike.2.byuser}} " id = "main{{mostlike.1.id}}" {% if user.is_authenticated %}onclick="myFunction(this.id)"{% else %} data-toggle="modal" data-target="#exampleModalCenter"{% endif %} style="background: none; padding: none; border: none; outline: none;"> <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="black" class="bi bi-suit-heart" viewBox="0 0 16 16">
+  <path d="M8 6.236l-.894-1.789c-.222-.443-.607-1.08-1.152-1.595C5.418 2.345 4.776 2 4 2 2.324 2 1 3.326 1 4.92c0 1.211.554 2.066 1.868 3.37.337.334.721.695 1.146 1.093C5.122 10.423 6.5 11.717 8 13.447c1.5-1.73 2.878-3.024 3.986-4.064.425-.398.81-.76 1.146-1.093C14.446 6.986 15 6.131 15 4.92 15 3.326 13.676 2 12 2c-.777 0-1.418.345-1.954.852-.545.515-.93 1.152-1.152 1.595L8 6.236zm.392 8.292a.513.513 0 0 1-.784 0c-1.601-1.902-3.05-3.262-4.243-4.381C1.3 8.208 0 6.989 0 4.92 0 2.755 1.79 1 4 1c1.6 0 2.719 1.05 3.404 2.008.26.365.458.716.596.992a7.55 7.55 0 0 1 .596-.992C9.281 2.049 10.4 1 12 1c2.21 0 4 1.755 4 3.92 0 2.069-1.3 3.288-3.365 5.227-1.193 1.12-2.642 2.48-4.243 4.38z"/>
+</svg></button><span id="main{{mostlike.1.id}}like">{{mostlike.0}}</span> likes <a href="/post{{mostlike.1.id}}" style="text-decoration: none;color: black;"><h5 class="glyphicon glyphicon-comment mx-2" style="color: grey;" ></h5><span>Comment</span></a> <a href="" ><h5 class="glyphicon glyphicon-share mx-2" style="color: grey;" ></h5></a></div>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="row">
+                            {% for i in allblog %}
+                            <div class="col-md-3">
+                                <div class="single-post">
+                                    <img src="/media/{{i.0.blog_image}}" width="600" height="350" alt="">
+                                    <h3><a href="#">{{i.blog_title|slice:":14"}}</a></h3>
+                                    <h4><span>Posted By: <span class="author-name">{{i.0.blog_owner}}</span></span>
+                                    </h4>
+                                    <p>{{i.0.blog_content|slice:":100"}}....<a href="/post{{i.0.id}}" style="text-decoration: none;">more</a></p>
+                                    <h4><span>{{i.0.blog_time}}</span></h4>
+   <div class="divpr">
+    {% csrf_token %}
+   <button  class="{{i.1.byuser}} " id = "blog{{i.0.id}}" {% if user.is_authenticated %}onclick="myFunction(this.id)"{% else %} data-toggle="modal" data-target="#exampleModalCenter"{% endif %} style="background: none; padding: none; border: none; outline: none;"> <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="black" class="bi bi-suit-heart" viewBox="0 0 16 16">
+  <path d="M8 6.236l-.894-1.789c-.222-.443-.607-1.08-1.152-1.595C5.418 2.345 4.776 2 4 2 2.324 2 1 3.326 1 4.92c0 1.211.554 2.066 1.868 3.37.337.334.721.695 1.146 1.093C5.122 10.423 6.5 11.717 8 13.447c1.5-1.73 2.878-3.024 3.986-4.064.425-.398.81-.76 1.146-1.093C14.446 6.986 15 6.131 15 4.92 15 3.326 13.676 2 12 2c-.777 0-1.418.345-1.954.852-.545.515-.93 1.152-1.152 1.595L8 6.236zm.392 8.292a.513.513 0 0 1-.784 0c-1.601-1.902-3.05-3.262-4.243-4.381C1.3 8.208 0 6.989 0 4.92 0 2.755 1.79 1 4 1c1.6 0 2.719 1.05 3.404 2.008.26.365.458.716.596.992a7.55 7.55 0 0 1 .596-.992C9.281 2.049 10.4 1 12 1c2.21 0 4 1.755 4 3.92 0 2.069-1.3 3.288-3.365 5.227-1.193 1.12-2.642 2.48-4.243 4.38z"/>
+</svg></button><span id="blog{{i.0.id}}like">{{i.1.total}}</span> likes <a href="/post{{i.0.id}}" style="text-decoration: none;color: black;"><h5 class="glyphicon glyphicon-comment mx-2" style="color: grey;" ></h5><span>Comment</span></a> <a href="" ><h5 class="glyphicon glyphicon-share mx-2" style="color: grey;" ></h5></a></div>
+                                </div>
+                            </div>
+                            {% if forloop.counter|divisibleby:3 %}
+                        </div><div class="row">
+                            {% endif %}
+                            {% endfor %}
+                            <div class="col-md-4">
+                   
+
+
+
+
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+
+
+
+
+
+
+
+
+
+                       <!--      <div class="col-md-3">
+                                <div class="single-post">
+                                    <img src="{% static 'img/post-image3.jpg' %}" alt="">
+                                    <h3><a href="#">Post Title Goes Here.</a></h3>
+                                    <h4><span>Posted By: <span class="author-name">Kabbo Liate</span></span>
+                                    </h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed dotempor incididunt ut. labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+                                    <h4><span>25 February 2017</span></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="single-post">
+                                    <img src="{% static 'img/post-image4.jpg' %}" alt="">
+                                    <h3><a href="#">Post Title Goes Here.</a></h3>
+                                    <h4><span>Posted By: <span class="author-name">Kabbo Liate</span></span>
+                                    </h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed dotempor incididunt ut. labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+                                    <h4><span>25 February 2017</span></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="single-post">
+                                    <img src="{% static 'img/post-image5.jpg' %}" alt="">
+                                    <h3><a href="#">Post Title Goes Here.</a></h3>
+                                    <h4><span>Posted By: <span class="author-name">Kabbo Liate</span></span>
+                                    </h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed dotempor incididunt ut. labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+                                    <h4><span>25 February 2017</span></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="single-post">
+                                    <img src="{% static 'img/post-image6.jpg' %}" alt="">
+                                    <h3><a href="#">Post Title Goes Here.</a></h3>
+                                    <h4><span>Posted By: <span class="author-name">Kabbo Liate</span></span>
+                                    </h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed dotempor incididunt ut. labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+                                    <h4><span>25 February 2017</span></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="single-post">
+                                    <img src="{% static 'img/post-image7.jpg' %}" alt="">
+                                    <h3><a href="#">Post Title Goes Here.</a></h3>
+                                    <h4><span>Posted By: <span class="author-name">Kabbo Liate</span></span>
+                                    </h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed dotempor incididunt ut. labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+                                    <h4><span>25 February 2017</span></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="single-post">
+                                    <img src="{% static 'img/post-image8.jpg' %}" alt="">
+                                    <h3><a href="#">Post Title Goes Here.</a></h3>
+                                    <h4><span>Posted By: <span class="author-name">Kabbo Liate</span></span>
+                                    </h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed dotempor incididunt ut. labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+                                    <h4><span>25 February 2017</span></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="single-post">
+                                    <img src="{% static 'img/post-image9.jpg' %}" alt="">
+                                    <h3><a href="#">Post Title Goes Here.</a></h3>
+                                    <h4><span>Posted By: <span class="author-name">Kabbo Liate</span></span>
+                                    </h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed dotempor incididunt ut. labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+                                    <h4><span>25 February 2017</span></h4>
+                                </div>
+                            </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="pegination container">
+                <!--
+                <ul>
+                    <li><i class="fa fa-angle-left" aria-hidden="true"></i></li>
+                    <li class="active">1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li><i class="fa fa-angle-right" aria-hidden="true"></i></li>
+                </ul>
+-->
+{% with request.path|slice:"10:" as cur%}
+{% with cur|slice:":-1" as cut %}
+                <div class="nav-links">
+
+                    {% for p in page %}
+                    {% with p|add:'/' as varname %}
+                    
+
+                    <a class="page-numbers {% ifequal p|slugify cut %}current{% endifequal %}" href="/home/page{{p}}/">{{p}}</a>
+                    {% endwith %}
+                    
+                    {% endfor %}
+                    <a class="page-numbers" {% if next == 0 %}disabled="disabled"{% endif %} {% if next != 0 %}href="/home/page{{next}}"{% endif %}><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                    {% endwith %}
+                    {% endwith %}
+
+
+                    <!-- <a class="page-numbers" href="#">2</a>
+                    <a class="page-numbers" href="#">3</a>
+                    <a class="page-numbers" href="#">4</a>
+                    <a class="page-numbers" href="#">5</a> -->
+                </div>
+            </div>
+        </section>
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function() {
+   checklike()
+}, false);
+function checklike(){
+    var a = document.getElementsByClassName('liked')
+    console.log(a.length)
+    for (var i = a.length - 1; i >= 0; i--) {
+        like(a[i].id)
+    }
+
+}
+function myFunction(bid) {
+var clas = document.getElementById(bid).className;
+if (clas == 'liked') {
+    dislike(bid);
+}
+else{
+    like(bid);
+}
+var formData = {
+        'blogid': bid,
+        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+    };
+
+ $.ajax({
+            type: 'POST',
+            url: '/home/',
+            data: formData,
+            encode: true
+        }).done(function(data) {
+            console.log(data)
+            updates=JSON.parse(data)
+            console.log(updates)
+            document.getElementById(updates.blogid+'like').innerHTML=updates.likes;
+            if (updates.status == 'liked') {
+                like(updates.blogid)
+            }
+            else{
+                dislike(updates.blogid)
+            }
+            
+        });
+
+}
+function like(bid){
+    document.getElementById(bid).innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="red" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+  <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"/>
+</svg>
+`;
+document.getElementById(bid).className="disliked";
+}
+function dislike(bid){
+    document.getElementById(bid).innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="black" class="bi bi-suit-heart" viewBox="0 0 16 16">
+      <path d="M8 6.236l-.894-1.789c-.222-.443-.607-1.08-1.152-1.595C5.418 2.345 4.776 2 4 2 2.324 2 1 3.326 1 4.92c0 1.211.554 2.066 1.868 3.37.337.334.721.695 1.146 1.093C5.122 10.423 6.5 11.717 8 13.447c1.5-1.73 2.878-3.024 3.986-4.064.425-.398.81-.76 1.146-1.093C14.446 6.986 15 6.131 15 4.92 15 3.326 13.676 2 12 2c-.777 0-1.418.345-1.954.852-.545.515-.93 1.152-1.152 1.595L8 6.236zm.392 8.292a.513.513 0 0 1-.784 0c-1.601-1.902-3.05-3.262-4.243-4.381C1.3 8.208 0 6.989 0 4.92 0 2.755 1.79 1 4 1c1.6 0 2.719 1.05 3.404 2.008.26.365.458.716.596.992a7.55 7.55 0 0 1 .596-.992C9.281 2.049 10.4 1 12 1c2.21 0 4 1.755 4 3.92 0 2.069-1.3 3.288-3.365 5.227-1.193 1.12-2.642 2.48-4.243 4.38z"/>
+    </svg>`;
+    document.getElementById(bid).className='liked';
+}   
+ $(function () {
+  $('[data-toggle="popover"]').popover()
+})
+
+
+</script>
+
+{% endblock %}
+

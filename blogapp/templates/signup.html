@@ -1,0 +1,266 @@
+{% extends 'basic.html' %}
+{% block body %}
+<div class="signup-form">
+    <form id="formData">{% csrf_token %}
+		<h2>Sign Up</h2>
+		<p>Please fill in this form to create an account!</p>
+		<hr>
+        <div class="form-group">
+			<div class="row">
+				<div class="col"><input type="text" class="form-control" name="first_name" placeholder="First Name" required="required"></div>
+				<div class="col"><input type="text" class="form-control" name="last_name" placeholder="Last Name" required="required"></div>
+			</div>        	
+        </div>
+        <div class="form-group">
+        	<input type="email" class="form-control" name="email" placeholder="Email" required="required">
+        	<div class="text-danger" id="emailerror"></div>
+        </div>
+		<div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+        </div>
+		<div class="form-group">
+            <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required="required">
+            <div class="text-danger" id="passerror"></div>
+        </div> 
+        <div class="form-group" id="otp">
+        </div>   
+       
+
+        <div class="form-group">
+			<label class="form-check-label"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
+		</div><div id = pass>
+			
+		</div>		<div class="form-group">
+            <button type="submit" class="btn btn-primary btn-lg" id= "submit"> Sign Up</button>
+        </div>
+    </form>
+	<div class="hint-text">Already have an account? <a href="" data-toggle="modal" data-target="#exampleModalCenter" style="color: black; text-decoration: none;">Login here</a></div>
+</div>
+
+
+
+
+
+
+<!-- this is login form-->
+
+
+
+
+
+
+{% endblock %}
+{% block style %}
+<style>
+body{
+	color: #fff;
+	background: #3598dc;
+	font-family: 'Roboto', sans-serif;
+}
+.form-control {
+	height: 41px;
+	background: #f2f2f2;
+	box-shadow: none !important;
+	border: none;
+}
+.form-control:focus {
+	background: #e2e2e2;
+}
+.form-control, .btn {        
+	border-radius: 3px;
+}
+.signup-form {
+	width: 400px;
+	margin: 30px auto;
+}
+.signup-form form {
+	color: #999;
+	border-radius: 3px;
+	margin-bottom: 15px;
+	background: #fff;
+	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+	padding: 30px;
+}
+.signup-form h2  {
+	color: #333;
+	font-weight: bold;
+	margin-top: 0;
+}
+.signup-form hr  {
+	margin: 0 -30px 20px;
+}    
+.signup-form .form-group {
+	margin-bottom: 20px;
+}
+.signup-form input[type="checkbox"] {
+	margin-top: 3px;
+}
+.signup-form .row div:first-child {
+	padding-right: 10px;
+}
+.signup-form .row div:last-child {
+	padding-left: 10px;
+}
+.signup-form .btn {        
+	font-size: 16px;
+	font-weight: bold;
+	background: #3598dc;
+	border: none;
+	min-width: 140px;
+}
+.signup-form .btn:hover, .signup-form .btn:focus {
+	background: #2389cd !important;
+	outline: none;
+}
+.signup-form a {
+	color: #fff;
+	text-decoration: underline;
+}
+.signup-form a:hover {
+	text-decoration: none;
+}
+.signup-form form a {
+	color: #3598dc;
+	text-decoration: none;
+}	
+.signup-form form a:hover {
+	text-decoration: underline;
+}
+.signup-form .hint-text  {
+	padding-bottom: 15px;
+	text-align: center;
+}
+</style>
+{% endblock %}
+{% block script %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
+
+<script>
+
+ // $('#formData').submit(function(event) {
+ //    console.log("working")
+ //    var formData = {
+ //        'first_name': $('input[name=first_namename]').val(),
+ //        'password': $('input[name=password]').val(),
+ //        'cpassword': $('input[name=confirm_password]').val(),
+ //        'email': $('input[name=email]').val(),
+ //        'last_name': $('input[name=last_name]').val(),
+ //        'otp': $('div > input[name=otpval]').val(),
+        
+ //    };
+ //   	$.ajax({
+ //            type: 'POST',
+ //            url: '/signup/',
+ //            data: formData,
+ //            encode: true
+ //        }).done(function(data) {
+ //            console.log(data)
+ //            updates=JSON.parse(data)
+ //            console.log(updates)
+ //            console.log("log   ",updates.length)
+ //            console.log(updates['text'])
+ //                if(updates['text'] == 'email' ){
+ //                    mystr = `email is already exist` 
+ //                document.getElementById('emailerror').innerHTML=mystr
+ //                }
+
+              
+ //                if(updates['text']=='otp'){
+ //                      mystr = ` <div class="row my-3 ">
+ //        <div class="col"><input type="text" class="form-control"  name="otpval" placeholder="enter otp"></div>
+ //      </div>
+ //      <div class="text-danger" id="otperror"></div>
+ //       <div class="text-success" id="otperros"></div>
+ //       <div><button type="submit" class="btn btn-dark my-3">enter otp</button></div>`
+ //                  document.getElementById('otp').innerHTML=mystr
+ //                  }
+                
+ //                if(updates['text']=='invalid'){
+ //                    mystr ="invalid otp"
+ //                  $('div > div[id=otperror]').append(mystr)
+ //                  }
+ //                if(updates['text']=='account'){
+ //                    mystr ="account is  created naw you can login"
+ //                  $('div > div[id=otperros]').append(mystr)
+ //                  }
+
+ //        });
+ //          event.preventDefault();
+ //    });
+
+
+
+ $(document).on('submit', '#formData', function(event){
+ 	console.log("working")
+
+ 	mystr= 
+`<div class="spinner-border" role="status">
+  <span class="sr-only">Loading...</span>
+</div> `;
+document.getElementById('submit').innerHTML=mystr
+
+
+ 	   var formData = {
+        'first_name': $('input[name=first_name]').val(),
+        'password': $('input[name=password]').val(),
+        'cpassword': $('input[name=confirm_password]').val(),
+        'email': $('input[name=email]').val(),
+        'last_name': $('input[name=last_name]').val(),
+        'otp': $('div > input[name=otpval]').val(),
+		'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+
+    };
+    if (formData.password == formData.cpassword) {
+ 		$.ajax({
+            type: 'POST',
+            url: '/signup/',
+            data: formData,
+            encode: true
+        }).done(function(data) {
+            console.log(data)
+            updates=JSON.parse(data)
+            console.log(updates)
+            console.log("log   ",updates.length)
+            console.log(updates['text'])
+                if(updates['text'] == 'email' ){
+                    mystr = `email is already exist` 
+                document.getElementById('emailerror').innerHTML=mystr
+                }
+
+              
+                if(updates['text']=='otp'){
+                      mystr = ` 
+             <input type="password" class="form-control" name="otpval" placeholder="Enter The Otp" required="required"> 
+      <div class="text-danger" id="otperror"></div>
+       <div class="text-success" id="otperros"></div>`
+                  document.getElementById('otp').innerHTML=mystr
+                  document.getElementById('submit').innerHTML=`Submit`
+                  }
+                
+                if(updates['text']=='invalid'){
+                    mystr ="invalid otp"
+                  $('div > div[id=otperror]').append(mystr)
+                  }
+                if(updates['text']=='account'){
+                    mystr ="account is  created naw you can login"
+                  $('div > div[id=otperros]').append(mystr)
+                  }
+                 document.getElementById('submit').innerHTML=`Submit`
+                  
+
+        });
+        }
+        else{
+        	document.getElementById('passerror').innerHTML=`Password is Not Matched`;
+        }
+        document.getElementById('submit').innerHTML=`Submit`
+    event.preventDefault();
+});
+
+</script>
+
+{% endblock %}

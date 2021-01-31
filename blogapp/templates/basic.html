@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'responsive.css' %}">
+    {% block style %}
+{% endblock %}
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+{% block header %}{% endblock %}
+    {% block script %}{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+ 
+</head>
+
+<body>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-suit-heart" viewBox="0 0 16 16">
+  <path d="M8 6.236l-.894-1.789c-.222-.443-.607-1.08-1.152-1.595C5.418 2.345 4.776 2 4 2 2.324 2 1 3.326 1 4.92c0 1.211.554 2.066 1.868 3.37.337.334.721.695 1.146 1.093C5.122 10.423 6.5 11.717 8 13.447c1.5-1.73 2.878-3.024 3.986-4.064.425-.398.81-.76 1.146-1.093C14.446 6.986 15 6.131 15 4.92 15 3.326 13.676 2 12 2c-.777 0-1.418.345-1.954.852-.545.515-.93 1.152-1.152 1.595L8 6.236zm.392 8.292a.513.513 0 0 1-.784 0c-1.601-1.902-3.05-3.262-4.243-4.381C1.3 8.208 0 6.989 0 4.92 0 2.755 1.79 1 4 1c1.6 0 2.719 1.05 3.404 2.008.26.365.458.716.596.992a7.55 7.55 0 0 1 .596-.992C9.281 2.049 10.4 1 12 1c2.21 0 4 1.755 4 3.92 0 2.069-1.3 3.288-3.365 5.227-1.193 1.12-2.642 2.48-4.243 4.38z"/>
+</svg>
+    <div class="wrapper">
+        <header class="header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="logo">
+                             {% if user.is_authenticated %}
+                            <h2><a href="#">{{request.user.first_name}}</a></h2>
+                            {% else %}
+                            <h2><a href="#">Classic</a></h2>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="menu">
+                            <ul>
+                                <li class="{{home}}"><a href="/home">Home</a></li>
+                                <li class="{{contact}}"><a href="/contact">Contact</a></li>
+                                <li class="{{active}}"><a href="#">Food</a></li>
+                                <li class="{{active}}"><a href="#">Nature</a></li>
+                             {% if user.is_authenticated %}
+                             <li class="{{about}}"><a href="/about">About Us
+                                </a></li>
+                                {% else %}
+                             <li class="{{signup}}"><a href="/signup">signup
+                                </a></li>
+                               {% endif %}
+
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title container" id="exampleModalLongTitle"><center><h4>Login First</h4></center></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+          
+          <div class="card">
+          <article class="card-body">
+              <a href="" class="float-right btn btn-outline-primary">Sign up</a>
+              <h4 class="card-title mb-4 mt-1">Sign in</h4>
+              <p>
+                  <a href="" class="btn btn-block btn-outline-info"> <i class="fa fa-twitter"></i>   Login via Twitter</a>
+                  <a href="" class="btn btn-block btn-outline-primary"> <i class="fa fa-facebook-f"></i>   Login via facebook</a>
+              </p>
+              <hr>
+              <form id = "loginform"  method="post">{% csrf_token %} 
+              <div class="form-group">
+                <div class="text-danger" id= "loginerr"></div>
+                  <input  name="lemail" class="form-control" placeholder="Email or login" type="email">
+              </div> <!-- form-group// -->
+              <div class="form-group">
+                  <input class="form-control" name="lpassword" placeholder="password" type="password">
+              </div> <!-- form-group// -->                                      
+              <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">
+                          <button type="submit" class="btn btn-primary btn-block"> Login  </button>
+                      </div> <!-- form-group// -->
+                  </div>
+                  <div class="col-md-6 text-right">
+                      <a class="small" href="#">Forgot password?</a>
+                  </div>                                            
+              </div> <!-- .row// -->                                                                  
+          </form>
+          </article>
+          </div> <!-- card.// -->
+          
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        
+        
+        {% if messages %}
+
+{% for message in messages %}
+ {% if message.tags == 'error' %}
+  <div id="message" class="alert alert-danger alert-dismissible fade show" role="alert">
+ {% else %}
+  <div id="message" class="alert alert-success alert-dismissible fade show" role="alert">
+{% endif %}
+{{message}}
+{% endfor %}
+{% endif %}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+{% block body %}{% endblock %}
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="footer-bg">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="footer-menu">
+                                        <ul>
+                                            <li class="active"><a href="#">Home</a></li>
+                                            <li><a href="#">lifestyle</a></li>
+                                            <li><a href="#">Food</a></li>
+                                            <li><a href="#">Nature</a></li>
+                                            <li><a href="#">photography</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="footer-icon">
+                                        <p><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></p>
+                                    </div>
+                                </div>
+                            </div> .
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/active.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
+    <script>
+        $(document).on('submit', '#loginform', function(event){
+ 	console.log("working")
+ 	var formData = {
+ 		'email' : $('input[name = lemail]').val(),
+ 		'password': $('input[name = lpassword]').val(),
+		'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+ 	};
+ 		$.ajax({
+            type: 'POST',
+            url: '/login/',
+            data: formData,
+            encode: true
+        }).done(function(data){
+          console.log(data)
+          updates = JSON.parse(data)
+          if (updates['user']== 'success'){
+            document.location='{{request.path}}'
+          }
+          else{
+            document.getElementById('loginerr').innerHTML=`Please Check Your Email or password is Invalid `
+          }
+        });
+        	event.preventDefault();
+ });
+    </script>
+</body>
+
+</html>

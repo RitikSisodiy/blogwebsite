@@ -1,0 +1,231 @@
+{% extends 'basic.html' %}
+{% block body %}
+{% load static %}
+<section class="blog-post-area">
+<div class="container">
+    <div class="row">
+        <div class="blog-post-area-style">
+<div class="col-md-12">
+    <div class="single-post-big">
+        <div class="big-image">
+            <img src="/media/{{blog.blog_image}}" alt="">
+        </div>
+        <div class="big-text">
+            <h3><a href="#">{{blog.blog_title}}</a></h3>
+            <p>{{blog.blog_content}}</p>
+            <h4><span class="date">{{blog.blog_time}}</span><span class="author">Posted By: <span class="author-name">{{blog.blog_owner}}</span></span>
+            </h4>
+        </div>
+    </div>
+</div>
+</div></div></div></section>
+<div class="mt-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+            <div class="headings d--content-between align-items-center mb-3">
+                <h5>comments({{comment|length}})</h5>
+                <div class="buttons"> <span class="badge bg-white d-flex flex-row align-items-center"> <span class="text-primary"></span>
+                     </span> </div>
+            </div>
+            {% for item in comment %}
+            <!-- <div class="card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="user d-flex flex-row align-items-center"> <img src="https://i.imgur.com/hczKIze.jpg" width="40" class="user-img rounded-circle mr-2"> <span><small class="font-weight-bold text-primary">{{item.1}}</small> <small class="font-weight-bold">{{item.0.comment}}</small></span> </div> <small>{{item.0.date}}</small>
+                </div>
+                <div class="action d-flex justify-content-between mt-2 align-items-center mx-4">
+                    <div class="reply px-4"><a href="" style="text-decoration: none;"> <small>Remove</small></a> <span class="dots"></span> <a href="" style="text-decoration: none;"><small>Reply</small></a> <span class="dots"></span><a href="" style="text-decoration: none;"> <small>  Translate</small></a> </div>
+                    <div class="icons align-items-center"> <i class="fa fa-star text-warning"></i> <i class="fa fa-check-circle-o check-icon"></i> </div>
+                    
+                </div>
+                
+            </div>
+            <nav class="navbar navbar-light bg-light">
+                <div class="container-fluid">
+                  <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                  </form>
+                </div>
+              </nav> -->
+              <div class="row mt-4">
+                <div class="col-sm-3 col-lg-1 col-xl-1">
+                    <img class="w-100 d-block mx-auto rounded-circle img-fluid border border-dark rounded" src="{% static 'img/comment.png' %}">
+                </div>
+                <div class="col-md-8 col-lg-10 col-xl-10 commentContainer">
+                    <div class="my-2">
+                        <b>{{item.1}}</b> <span class="badge badge-secondary">{{item.0.date}}</span><br>
+                        {{item.0.comment}}
+                    </div>
+                    
+                    <button class="btn btn-primary btn-sm" type="button" id = "getreply{{item.0.id}}" onclick="getreply(this.id)" data-toggle="collapse" data-target="#openReply{{item.0.id}}" aria-expanded="true" aria-controls="collapseExample">
+                        Add Reply </button><span id= "getreply{{item.0.id}}sp" class="mx-4">{{item.2}}</span>reply
+        
+                    <!-- replies are here -->
+                    <div class="collapse" id="openReply{{item.0.id}}" style="">
+                        <div id = "Reply{{item.0.id}}"></div>
+                        {% csrf_token %}
+                            <textarea type="text" class="form-control my-2" placeholder="Write a reply..." id="comreply{{item.0.id}}"></textarea>
+                             <button class="btn btn-sm btn-primary" id = "{{item.0.id}}" {% if user.is_authenticated %}onclick="reply(this.id)"{% else %} data-toggle="modal" data-target="#exampleModalCenter"{% endif %}>Reply</button>
+                    </div>
+                    <div class="commentReplies"> </div>
+                </div>
+        
+            </div>
+            {% endfor %}
+            <div class="card p-3" id="comments">
+
+            </div>
+            <div id="loading" id="comments">
+
+            </div>
+            <form method="POST" id="comment">{% csrf_token %}
+            <div class="form-group shadow-textarea">
+                <label for="exampleFormControlTextarea6"></label>
+                <textarea class="form-control z-depth-1" id="commentbox" name="comment" id="exampleFormControlTextarea6" rows="3" placeholder="Write something here..." required></textarea>
+            <button    {% if user.is_authenticated %}type="submit"{% else %} data-toggle="modal" data-target="#exampleModalCenter"{% endif %} id = "commentbutton"class="btn  btn-primary my-4">
+Comment</button>  
+            </div>
+        </form>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block script %}
+<script>
+    $(document).on('submit', '#comment', function(event){
+        console.log("working");
+        $('#commentbutton').empty
+        document.getElementById("commentbutton").disabled = true;
+        mystr = `<div class="spinner-border" role="status">
+  <span class="sr-only"></span>
+</div> 
+`
+        $('#loading').append(`<div class="spinner-border" role="status">
+        <span class="sr-only"></span>
+        </div> `)
+        $('#commentbutton').append(mystr)
+        var formData = {
+            'comment': $('textarea[name=comment]').val(),
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+            'for': 'comment',
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/post{{blog.id}}/',
+            data: formData,
+            encode: true
+        }).done(function(data){
+          updates = JSON.parse(data)
+          let user = "{{request.user.first_name}}" +" "+ "{{request.user.last_name}}"
+          let comment = updates.comment;
+          let date = updates.date;
+          mystr =  `<div class="d-flex justify-content-between align-items-center">
+                    <div class="user d-flex flex-row align-items-center"> <img src="https://i.imgur.com/hczKIze.jpg" width="40" class="user-img rounded-circle mr-2"> <span><small class="font-weight-bold text-primary">${user}</small> <small class="font-weight-bold">${comment}</small></span> </div> <small>${date}</small>
+                </div>
+                <div class="action d-flex justify-content-between mt-2 align-items-center mx-4">
+                    <div class="reply px-4"><a href="" style="text-decoration: none;"> <small>Remove</small></a> <span class="dots"></span> <a href="" style="text-decoration: none;"><small>Reply</small></a> <span class="dots"></span><a href="" style="text-decoration: none;"> <small>  Translate</small></a> </div>
+                    <div class="icons align-items-center"> <i class="fa fa-star text-warning"></i> <i class="fa fa-check-circle-o check-icon"></i> </div>
+                </div>`
+            document.getElementById('comments').innerHTML=mystr
+            document.getElementById('commentbox').value = '';
+            $('#commentbutton').empty()
+            $('#loading').empty()
+            $('#commentbutton').append("comment")
+            document.getElementById("commentbutton").disabled = false;
+      
+        });
+        event.preventDefault();
+    });
+function getreply(rid){
+    console.log("working")
+    var a = document.getElementById(rid+'sp').innerHTML
+    b = rid.slice(8,)
+    if(parseInt(a)>0){
+     var formData = {
+         'comid': rid,
+         'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+         'for':'getreply'
+     } 
+     if(document.getElementById('Reply'+b).innerHTML==''){
+        document.getElementById('Reply'+b).innerHTML= `<div class="spinner-border" role="status"><span class="sr-only"></span></div> `;
+        $.ajax({
+            type: 'POST',
+            url: '/post{{blog.id}}/',
+            data: formData,
+            encode: true
+        }).done(function(data){
+            var updates = JSON.parse(data)
+            mystr = '';
+            $('#Reply'+updates[0].commentid).empty()
+            for (let i = 0; i < updates.length; i++) {
+                let user = updates[i].username+' ';
+                let reply = updates[i].comreply;
+                let date = updates[i].comdate;
+                mystr = `<div class="my-4">
+                                <div class="col-sm-3 col-lg-1 col-xl-1 ">
+                                    <img class="w-100 d-block mx-auto rounded-circle img-fluid border border-dark rounded" src="{% static 'img/comment.png' %}">
+                                </div>
+                                <div class="my-2">
+                                    <b>${user}</b> <span class="badge badge-secondary">${date}</span><br>
+                                    ${reply}
+                                </div>
+                            </div>`
+                $('#Reply'+updates[0].commentid).append(mystr)
+            }
+            
+            
+            
+        });}
+
+    }
+    else{
+        console.log("no reply")
+    }
+}
+    function reply(rid){
+        console.log("working")
+        var rep = $('#comreply'+rid).val();
+        if(rep != ''){
+        var formData = {
+            'reply': rep,
+            'comid': rid,
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+            'for': 'reply'
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/post{{blog.id}}/',
+            data: formData,
+            encode: true
+        }).done(function(data){
+            updates = JSON.parse(data);
+            let user = "{{request.user.first_name}}" +" "+ "{{request.user.last_name}}"
+            let reply = updates.reply
+            let date = updates.date
+            mystr = `<div class="my-4">
+                                <div class="col-sm-3 col-lg-1 col-xl-1 ">
+                                    <img class="w-100 d-block mx-auto rounded-circle img-fluid border border-dark rounded" src="{% static 'img/comment.png' %}">
+                                </div>
+                                <div class="my-2">
+                                    <b>${user}</b> <span class="badge badge-secondary">${date}</span><br>
+                                    ${reply}
+                                </div>
+                            </div>`
+            $('#Reply'+rid).append(mystr)
+            document.getElementById('comreply'+rid).value = '';
+            a = parseInt(document.getElementById('getreply'+rid+'sp').innerHTML)+1
+            document.getElementById('getreply'+rid+'sp').innerHTML = a;
+            
+        })
+    }
+    else{
+        $('#comreply'+rid).focus();
+    }
+        event.preventDefault();
+    }
+</script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    
+{% endblock %}
